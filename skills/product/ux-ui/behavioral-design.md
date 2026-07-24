@@ -1,80 +1,304 @@
-Name: ux-check
-Description: Run a structured UX audit of a screen or component against three lenses — FTU (first-time user), TRUST (high-stakes safety), and COG (cognitive load). Use when reviewing new screens before shipping, auditing existing UI for quality, or stress-testing a design against real user mental models. Works from a screenshot, a description, a JSX/HTML file, or a live route.
-Version: 1.0.0
-User invocable: true
-Argument hint: [screen name or file path or description]
+---
+name: behavioral-design
+description: Audit a screen, workflow, feature, or product through the lens of human behavior, cognition, trust, accessibility, and task completion. Produces evidence-backed findings, behavioral risk analysis, and prioritized recommendations.
+version: 1.0.0
+user-invocable: true
+---
 
-UX Check Skill
-Run the full audit unless the user scopes it to one lens (e.g. "FTU only", "just TRUST").
+# HUMAN UX Audit
 
-Input
-Accept any of:
+Evaluate software through five dimensions:
 
-A file path to a component or page (.jsx, .tsx, .html)
-A route name or screen description
-A screenshot (visual inspection)
-Raw descriptive text of the UI
-If a file path is given, read the file before auditing. If a screenshot is available, inspect it visually.
+UNDERSTAND
+TRUST
+ACT
+RECOVER
+SUSTAIN
 
-Output format
-For each check, output one line:
+The goal is not to judge aesthetics.
 
-[PASS] FTU.1 — Next action obvious
-[WARN] FTU.5 — Jargon budget: 4 product-specific terms found ("Vault", "Version Graph", "BOM", "Release Lock")
-[FAIL] COG.2 — Primary action count: 3 competing CTAs visible
-Then a Summary block at the end:
+The goal is to identify where human behavior and system behavior diverge.
 
-PASS: N   WARN: N   FAIL: N
-Top priority fixes:
-1. [most severe FAIL or WARN + one-sentence fix]
-2. ...
-Use judgment — a WARN is "technically within limits but worth watching", a FAIL is "clear violation of the check".
+---
 
-The Checks
-FTU — First-Time User
-Five checks for what a brand-new user can do on the screen.
+# Step 1 — Identify the User Goal
 
-FTU.1 Next action obvious Within five seconds, can a first-time user identify what to do next? Look for a single dominant call-to-action, visual hierarchy that draws the eye, and absence of competing focal points.
+Determine:
 
-FTU.2 No required prerequisite knowledge Does the screen require understanding a concept that hasn't been introduced yet? Flag any term or interaction that presupposes familiarity with the product's internal model.
+Primary Goal:
+...
 
-FTU.3 Recoverable mistakes Is the cost of being wrong clear before they commit? Check for destructive actions with no confirmation, ambiguous buttons, and irreversible flows with no undo or preview.
+Secondary Goals:
+...
 
-FTU.4 Empty states do work Empty states should teach, not just announce emptiness. Check that zero-state UI explains what belongs here, why it's empty, and what to do next. "No items" alone is a failure.
+Success Criteria:
+...
 
-FTU.5 Jargon budget Count product-specific terms. More than two for a first-time user is usually a warning sign. List the terms found and their count.
+If the primary goal is unclear, note this immediately.
 
-TRUST — High-Stakes Moments
-Trust and safety at high-stakes moments.
+---
 
-TRUST.1 Preview before commit Can users see what will happen before it happens? Check for confirmation dialogs, preview modes, or summary screens before destructive or irreversible actions.
+# Step 2 — Model User Expectations
 
-TRUST.2 Test mode Can they experiment without affecting real customers or data? Look for sandbox modes, draft states, or staging environments surfaced in the UI.
+Predict:
 
-TRUST.3 State clarity Is it obvious whether something is draft, live, paused, or scheduled? Check that status labels are unambiguous and visually distinct.
+What does a first-time user expect will happen?
 
-TRUST.4 Reversibility How difficult is it to undo? Note if undo is absent, buried, or only available within a short window.
+What does a returning user expect will happen?
 
-TRUST.5 Audit trail Can users see what happened, who did it, and when? Check for activity logs, timestamps, and actor attribution on meaningful actions.
+What actually happens?
 
-TRUST.6 Volume signposting Before high-impact actions, is the scale obvious? Examples: "This will send to 42,000 contacts." "This will delete 7 projects." Flag if missing.
+Output:
 
-TRUST.7 No dark patterns No forced choice. No hidden cancellation. No guilt copy ("No thanks, I don't want to improve my workflow"). No fake scarcity. Flag any instance found.
+Expected:
+...
 
-COG — Cognitive Load
-Simple counts that act as warning flags.
+Actual:
+...
 
-COG.1 Decision count More than three decisions before progress is usually a problem. Count distinct choices the user must make to complete the primary flow.
+Mismatch:
+...
 
-COG.2 Primary action count There should be one obvious next step. Count competing CTAs or buttons of equal visual weight.
+---
 
-COG.3 New concept count More than one new concept per screen is often too much. Count concepts that require explanation or that a first-time user would need to look up.
+# Severity Scale
 
-COG.4 Reading load More than 50 words of body copy is usually worth reviewing. Count visible body text (exclude labels, field names, and navigation). Flag if over threshold.
+PASS
 
-Calibration notes
-Apply all checks from the perspective of the user's first encounter with this screen.
-If the screen is deep in a flow (e.g. step 3 of onboarding), note that context — FTU checks apply to the screen in isolation AND relative to what's been introduced so far.
-TRUST checks apply most heavily to: delete flows, publish/send flows, payment flows, and any action that affects other people.
-COG checks are counts, not judgments. Report the number. Let the team decide if the count is acceptable for their context.
-A screen can PASS all checks and still be mediocre design. This audit catches failure modes, not greatness.
+INFO
+
+WARN
+
+FAIL
+
+CRITICAL
+
+Definitions:
+
+PASS = No meaningful issue found
+
+INFO = Observation only
+
+WARN = Noticeable friction
+
+FAIL = Likely to impact success
+
+CRITICAL = High risk of abandonment, mistakes, or loss of trust
+
+---
+
+# Finding Format
+
+[WARN] UNDERSTAND.3
+
+Evidence:
+...
+
+Impact:
+...
+
+Recommendation:
+...
+
+---
+
+# UNDERSTAND
+
+Can users understand the interface?
+
+UNDERSTAND.1 Purpose clarity
+
+Can users identify what this screen is for?
+
+UNDERSTAND.2 Next-step clarity
+
+Can users identify what to do next?
+
+UNDERSTAND.3 Language clarity
+
+Is language written in user terms?
+
+UNDERSTAND.4 Concept load
+
+How many new concepts are introduced?
+
+UNDERSTAND.5 Information hierarchy
+
+Does visual structure guide attention effectively?
+
+UNDERSTAND.6 Recognition over memory
+
+Must users remember information from previous steps?
+
+---
+
+# TRUST
+
+Can users confidently predict outcomes?
+
+TRUST.1 Outcome visibility
+
+Can users predict what happens next?
+
+TRUST.2 System status visibility
+
+Can users understand current state?
+
+TRUST.3 Transparency
+
+Are consequences explained?
+
+TRUST.4 Permission clarity
+
+Who can do what?
+
+TRUST.5 Reversibility
+
+Can mistakes be undone?
+
+TRUST.6 Risk communication
+
+Is impact communicated before actions occur?
+
+TRUST.7 Ethical design
+
+No manipulative patterns.
+
+---
+
+# ACT
+
+Can users successfully complete their goal?
+
+ACT.1 Happy-path success
+
+ACT.2 Friction count
+
+ACT.3 Decision count
+
+ACT.4 Interaction efficiency
+
+ACT.5 Dead ends
+
+ACT.6 Progress visibility
+
+ACT.7 Time-to-completion
+
+Estimate:
+
+Under 30 seconds
+
+30 seconds–2 minutes
+
+2–5 minutes
+
+5+ minutes
+
+---
+
+# RECOVER
+
+What happens when things go wrong?
+
+RECOVER.1 Error prevention
+
+RECOVER.2 Error clarity
+
+RECOVER.3 Error recovery
+
+RECOVER.4 Undo capability
+
+RECOVER.5 Safe experimentation
+
+Can users explore without fear?
+
+RECOVER.6 State restoration
+
+Can users return to a known-good state?
+
+---
+
+# SUSTAIN
+
+What encourages continued usage?
+
+SUSTAIN.1 Cognitive load
+
+SUSTAIN.2 Learnability
+
+SUSTAIN.3 Workflow integration
+
+SUSTAIN.4 Motivation support
+
+Does the interface help users feel capable?
+
+SUSTAIN.5 Consistency
+
+Are patterns reused?
+
+SUSTAIN.6 Accessibility
+
+Can a broad range of users succeed?
+
+---
+
+# Behavioral Signals
+
+Estimate:
+
+Confusion Risk
+
+Trust Risk
+
+Error Risk
+
+Abandonment Risk
+
+Learning Curve
+
+For each:
+
+Low
+Medium
+High
+
+---
+
+# Anti-Patterns
+
+Identify:
+
+- Choice overload
+- Empty states
+- Hidden system status
+- Ambiguous actions
+- Feature-first design
+- Navigation traps
+- Excessive setup
+- Notification fatigue
+- Modal chains
+- Permission anxiety
+
+---
+
+# Priority Recommendations
+
+Rank recommendations by expected user impact.
+
+1.
+2.
+3.
+
+---
+
+# Final Assessment
+
+Excellent
+
+Strong
+
+Needs Improvement
+
+High Risk
+
+Provide a concise explanation focused on user outcomes and behavior.

@@ -1,0 +1,30 @@
+name: Validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate skills and links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate skill front matter and internal links
+        run: python3 scripts/validate.py
+
+      - name: Shellcheck install.sh
+        run: shellcheck install.sh
+
+      - name: Confirm install.sh is executable
+        run: test -x install.sh || { echo "install.sh is not executable — run: chmod +x install.sh"; exit 1; }

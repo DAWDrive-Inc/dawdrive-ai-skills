@@ -1,0 +1,22 @@
+# Launch/marketing drafts — not part of the published repo
+promo/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Node (in case a future skill ships tooling)
+node_modules/
+
+# Local review scratch
+*.local.md

@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 🔒 Report a security vulnerability
+    url: https://github.com/DAWDrive-Inc/dawdrive-ai-skills/security/advisories/new
+    about: Private disclosure for anything that lets a candidate bypass the gate. Do not open a public issue.
+  - name: 💬 Questions and ideas
+    url: https://github.com/DAWDrive-Inc/dawdrive-ai-skills/discussions
+    about: Open-ended discussion, "should this be a skill?", workflow questions.
